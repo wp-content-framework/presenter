@@ -1,6 +1,6 @@
 <?php
 /**
- * WP_Framework_Presenter Configs Filter
+ * WP_Framework_Presenter Views Include Dump
  *
  * @version 0.0.1
  * @author technote-space
@@ -10,12 +10,11 @@
  */
 
 if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
-	exit;
+	return;
 }
-
-return [
-
-	'drawer' => '\WP_Framework_Presenter\Classes\Models\Drawer',
-	'minify' => '\WP_Framework_Presenter\Classes\Models\Minify',
-
-];
+/** @var \WP_Framework_Presenter\Interfaces\Presenter $instance */
+/** @var mixed $data */
+?>
+<pre>
+<?php var_export( $data ); ?>
+</pre>

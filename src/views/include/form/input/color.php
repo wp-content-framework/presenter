@@ -1,6 +1,6 @@
 <?php
 /**
- * WP_Framework_Presenter Configs Filter
+ * WP_Framework_Presenter Views Include Form Input Color
  *
  * @version 0.0.1
  * @author technote-space
@@ -10,12 +10,11 @@
  */
 
 if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
-	exit;
+	return;
 }
-
-return [
-
-	'drawer' => '\WP_Framework_Presenter\Classes\Models\Drawer',
-	'minify' => '\WP_Framework_Presenter\Classes\Models\Minify',
-
-];
+/** @var \WP_Framework_Presenter\Interfaces\Presenter $instance */
+/** @var array $args */
+?>
+<?php $instance->form( 'input', array_merge( $args, [
+	'type' => 'color',
+] ) ); ?>
