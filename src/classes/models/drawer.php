@@ -19,9 +19,9 @@ if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
  * Class Drawer
  * @package WP_Framework_Presenter\Classes\Models
  */
-class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_Core\Interfaces\Hook, \WP_Framework_Presenter\Interfaces\Presenter {
+class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_Core\Interfaces\Hook, \WP_Framework_Presenter\Interfaces\Presenter, \WP_Framework_Common\Interfaces\Uninstall {
 
-	use \WP_Framework_Core\Traits\Singleton, \WP_Framework_Core\Traits\Hook, \WP_Framework_Presenter\Traits\Presenter;
+	use \WP_Framework_Core\Traits\Singleton, \WP_Framework_Core\Traits\Hook, \WP_Framework_Presenter\Traits\Presenter, \WP_Framework_Common\Traits\Uninstall;
 
 	/**
 	 * @var string|false $_package
@@ -45,4 +45,10 @@ class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 		$this->_package = $package->get_package();
 	}
 
+	/**
+	 * uninstall
+	 */
+	public function uninstall() {
+		$this->app->utility->delete_upload_dir( $this->app );
+	}
 }
