@@ -299,6 +299,26 @@ interface Presenter {
 	public function get_color_picker_class();
 
 	/**
+	 * setup dashicon picker
+	 */
+	public function setup_dashicon_picker();
+
+	/**
+	 * @return string
+	 */
+	public function get_dashicon_picker_class();
+
+	/**
+	 * setup media uploader
+	 */
+	public function setup_media_uploader();
+
+	/**
+	 * @return string
+	 */
+	public function get_media_uploader_class();
+
+	/**
 	 * @param string $handle
 	 */
 	public function set_script_translations( $handle );
