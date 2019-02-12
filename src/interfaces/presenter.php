@@ -138,30 +138,30 @@ interface Presenter {
 
 	/**
 	 * @param string $path
-	 * @param string $default
+	 * @param string|null $default
 	 * @param bool $append_version
 	 *
 	 * @return string
 	 */
-	public function get_assets_url( $path, $default = '', $append_version = true );
+	public function get_assets_url( $path, $default = null, $append_version = true );
 
 	/**
 	 * @param string $path
-	 * @param string $default
+	 * @param string|null $default
 	 * @param bool $append_version
 	 *
 	 * @return string
 	 */
-	public function get_upload_assets_url( $path, $default = '', $append_version = true );
+	public function get_upload_assets_url( $path, $default = null, $append_version = true );
 
 	/**
 	 * @param string $path
-	 * @param string $default
+	 * @param string|null $default
 	 * @param bool $append_version
 	 *
 	 * @return string
 	 */
-	public function get_img_url( $path, $default = 'img/no_img.png', $append_version = true );
+	public function get_img_url( $path, $default = null, $append_version = true );
 
 	/**
 	 * @param string $url
