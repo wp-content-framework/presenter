@@ -299,6 +299,16 @@ interface Presenter {
 	public function modal_class( $echo = true );
 
 	/**
+	 * setup dashicon picker
+	 */
+	public function setup_dashicon_picker();
+
+	/**
+	 * @return string
+	 */
+	public function get_dashicon_picker_class();
+
+	/**
 	 * setup media uploader
 	 */
 	public function setup_media_uploader();

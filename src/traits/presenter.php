@@ -730,6 +730,22 @@ trait Presenter {
 	}
 
 	/**
+	 * setup dashicon picker
+	 */
+	public function setup_dashicon_picker() {
+		$this->app->get_package_instance( 'view' );
+		$this->add_script_view( 'include/script/dashicon', [], 1 );
+		$this->add_style_view( 'include/style/dashicon', [], 1 );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_dashicon_picker_class() {
+		return $this->get_slug( 'dashicon_picker_class', '-dashicon_picker' );
+	}
+
+	/**
 	 * setup media uploader
 	 */
 	public function setup_media_uploader() {
