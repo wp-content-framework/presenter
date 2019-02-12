@@ -299,6 +299,16 @@ interface Presenter {
 	public function modal_class( $echo = true );
 
 	/**
+	 * setup media uploader
+	 */
+	public function setup_media_uploader();
+
+	/**
+	 * @return string
+	 */
+	public function get_media_uploader_class();
+
+	/**
 	 * @param string $handle
 	 */
 	public function set_script_translations( $handle );
