@@ -282,6 +282,13 @@ interface Presenter {
 	public function setup_modal();
 
 	/**
+	 * @param bool $echo
+	 *
+	 * @return string
+	 */
+	public function modal_class( $echo = true );
+
+	/**
 	 * setup color picker
 	 */
 	public function setup_color_picker();
@@ -290,13 +297,6 @@ interface Presenter {
 	 * @return string
 	 */
 	public function get_color_picker_class();
-
-	/**
-	 * @param bool $echo
-	 *
-	 * @return string
-	 */
-	public function modal_class( $echo = true );
 
 	/**
 	 * @param string $handle
