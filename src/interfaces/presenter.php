@@ -325,9 +325,10 @@ interface Presenter {
 
 	/**
 	 * @param string $type
+	 * @param bool $parse_db_type
 	 *
 	 * @return string
 	 */
-	public function get_form_by_type( $type );
+	public function get_form_by_type( $type, $parse_db_type = true );
 
 }

@@ -792,22 +792,24 @@ trait Presenter {
 
 	/**
 	 * @param string $type
+	 * @param bool $parse_db_type
 	 *
 	 * @return string
 	 */
-	public function get_form_by_type( $type ) {
-		switch ( $this->app->utility->parse_db_type( $type, true ) ) {
+	public function get_form_by_type( $type, $parse_db_type = true ) {
+		$parse_db_type and $type = $this->app->utility->parse_db_type( $type, true );
+		switch ( $type ) {
 			case 'int':
-				return 'number';
+				return 'input/number';
 			case 'bool':
-				return 'checkbox';
+				return 'input/checkbox';
 			case 'number';
 			case 'float';
-				return 'text';
+				return 'input/text';
 			case 'text';
 				return 'textarea';
 		}
 
-		return 'text';
+		return 'input/text';
 	}
 }
