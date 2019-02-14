@@ -33,6 +33,7 @@ class Package_Presenter extends Package_Base {
 	 */
 	public function get_configs() {
 		return [
+			'config',
 			'filter',
 			'map',
 			'setting',

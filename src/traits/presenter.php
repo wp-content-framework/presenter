@@ -29,6 +29,11 @@ trait Presenter {
 	private static $_prev_post = null;
 
 	/**
+	 * @var array $_setup_fontawesome
+	 */
+	private static $_setup_fontawesome = [];
+
+	/**
 	 * @var bool $_set_script_translations
 	 */
 	private $_set_script_translations = false;
@@ -765,6 +770,24 @@ trait Presenter {
 	 */
 	public function get_media_uploader_class() {
 		return $this->get_slug( 'color_picker_class', '-media_uploader' );
+	}
+
+	/**
+	 * setup fontawesome
+	 */
+	public function setup_fontawesome() {
+		$handle = $this->app->get_config( 'config', 'fontawesome_handle' );
+		if ( isset( self::$_setup_fontawesome[ $handle ] ) ) {
+			return;
+		}
+		self::$_setup_fontawesome[ $handle ] = true;
+
+		wp_enqueue_style( $handle, $this->app->get_config( 'config', 'fontawesome_url' ) );
+		$this->app->filter->register_class_filter( 'drawer', [
+			'style_loader_tag' => [
+				'style_loader_tag',
+			],
+		] );
 	}
 
 	/**

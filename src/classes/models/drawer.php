@@ -46,6 +46,36 @@ class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	}
 
 	/**
+	 * @param string $html
+	 * @param string $handle
+	 * @param string $href
+	 * @param string $media
+	 *
+	 * @return string
+	 */
+	/** @noinspection PhpUnusedPrivateMethodInspection */
+	private function style_loader_tag(
+		/** @noinspection PhpUnusedParameterInspection */
+		$html, $handle, $href, $media
+	) {
+		if ( $handle === $this->app->get_config( 'config', 'fontawesome_handle' ) ) {
+			$integrity   = $this->app->get_config( 'config', 'fontawesome_integrity' );
+			$crossorigin = $this->app->get_config( 'config', 'fontawesome_crossorigin' );
+			if ( empty( $integrity ) && empty( $crossorigin ) ) {
+				return $html;
+			}
+
+			$replace = "media='{$media}'";
+			! empty( $integrity ) and $replace .= " integrity='{$integrity}'";
+			! empty( $crossorigin ) and $replace .= " crossorigin='{$crossorigin}'";
+
+			return str_replace( "media='{$media}' />", "{$replace}  />", $html );
+		}
+
+		return $html;
+	}
+
+	/**
 	 * uninstall
 	 */
 	public function uninstall() {
