@@ -26,7 +26,7 @@ trait Presenter {
 	/**
 	 * @var array $_prev_post
 	 */
-	private $_prev_post = null;
+	private static $_prev_post = null;
 
 	/**
 	 * @var bool $_set_script_translations
@@ -161,18 +161,20 @@ trait Presenter {
 		} elseif ( ! isset( $key ) ) {
 			$default = $data;
 		}
-		if ( ! isset( $this->_prev_post ) ) {
-			$this->_prev_post = $this->app->session->get( $this->get_old_post_session_key(), null );
-			if ( empty( $this->_prev_post ) ) {
-				$this->_prev_post = [];
+		if ( ! isset( self::$_prev_post ) ) {
+			self::$_prev_post = $this->app->session->get( $this->get_old_post_session_key(), null );
+			if ( empty( self::$_prev_post ) ) {
+				self::$_prev_post = [];
+			} else {
+				self::$_prev_post = stripslashes_deep( self::$_prev_post );
 			}
 			$this->app->session->delete( $this->get_old_post_session_key() );
 		}
-		if ( $checkbox && ! empty( $this->_prev_post ) ) {
+		if ( $checkbox && ! empty( self::$_prev_post ) ) {
 			$default = false;
 		}
 
-		return $this->app->utility->array_get( $this->_prev_post, $name, $default );
+		return $this->app->utility->array_get( self::$_prev_post, $name, $default );
 	}
 
 	/**
