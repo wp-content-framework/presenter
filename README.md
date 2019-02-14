@@ -19,6 +19,17 @@
 * [matthiasmullie/minify](https://github.com/matthiasmullie/minify)
 
 ## 基本設定
+- configs/config.php  
+
+|設定値|説明|
+|---|---|
+|fontawesome_handle|Font Awesome用のハンドル名|
+|fontawesome_url|Font AwesomeのURL|
+|fontawesome_integrity|Font Awesomeのintegrity属性値|
+|fontawesome_crossorigin|Font Awesomeのcrossorigin属性値|
+|fontawesome_icon_url|Font AwesomeのアイコンURL|
+|fontawesome_font_family|Font Awesomeのfont family|
+
 - configs/setting.php  
 
 |設定値|説明|
