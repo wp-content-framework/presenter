@@ -728,6 +728,7 @@ trait Presenter {
 	public function setup_color_picker() {
 		$this->app->get_package_instance( 'view' );
 		wp_enqueue_script( 'wp-color-picker' );
+		wp_enqueue_style( 'wp-color-picker' );
 		$this->add_script_view( 'include/script/color', [], 1 );
 	}
 
