@@ -267,7 +267,7 @@ trait Presenter {
 	 * @return string
 	 */
 	public function json( $value, $echo = true ) {
-		return $this->h( json_encode( $value ), false, $echo, false );
+		return $this->h( @json_encode( $value ), false, $echo, false );
 	}
 
 	/**
@@ -593,10 +593,8 @@ trait Presenter {
 	 * @return bool
 	 */
 	public function enqueue_style( $handle, $file, array $depends = [], $ver = false, $media = 'all', $dir = 'css' ) {
-		$ver = $this->get_enqueue_ver( $ver );
-
 		return $this->enqueue_assets( $handle, $file, $dir, function ( $handle, $path ) use ( $depends, $ver, $media ) {
-			wp_enqueue_style( $handle, $path, $depends, $ver, $media );
+			wp_enqueue_style( $handle, $path, $depends, $this->get_enqueue_ver( $ver ), $media );
 		}, false );
 	}
 
@@ -612,13 +610,12 @@ trait Presenter {
 	 * @return bool
 	 */
 	public function enqueue_upload_style( $handle, $file, $generator, array $depends = [], $ver = false, $media = 'all', $dir = 'css' ) {
-		$ver = $this->get_enqueue_ver( $ver );
 		$this->app->utility->create_upload_file_if_not_exists( $this->app, $dir . DS . $file, function () use ( $generator ) {
 			return $this->app->minify->minify_css( $generator(), false );
 		} );
 
 		return $this->enqueue_assets( $handle, $file, $dir, function ( $handle, $path ) use ( $depends, $ver, $media ) {
-			wp_enqueue_style( $handle, $path, $depends, $ver, $media );
+			wp_enqueue_style( $handle, $path, $depends, $this->get_enqueue_ver( $ver ), $media );
 		}, true );
 	}
 
@@ -633,10 +630,8 @@ trait Presenter {
 	 * @return bool
 	 */
 	public function enqueue_script( $handle, $file, array $depends = [], $ver = false, $in_footer = true, $dir = 'js' ) {
-		$ver = $this->get_enqueue_ver( $ver );
-
 		return $this->enqueue_assets( $handle, $file, $dir, function ( $handle, $path ) use ( $depends, $ver, $in_footer ) {
-			wp_enqueue_script( $handle, $path, $depends, $ver, $in_footer );
+			wp_enqueue_script( $handle, $path, $depends, $this->get_enqueue_ver( $ver ), $in_footer );
 		}, false );
 	}
 
@@ -652,13 +647,12 @@ trait Presenter {
 	 * @return bool
 	 */
 	public function enqueue_upload_script( $handle, $file, $generator, array $depends = [], $ver = false, $in_footer = true, $dir = 'js' ) {
-		$ver = $this->get_enqueue_ver( $ver );
 		$this->app->utility->create_upload_file_if_not_exists( $this->app, $dir . DS . $file, function () use ( $generator ) {
 			return $this->app->minify->minify_js( $generator(), false );
 		} );
 
 		return $this->enqueue_assets( $handle, $file, $dir, function ( $handle, $path ) use ( $depends, $ver, $in_footer ) {
-			wp_enqueue_script( $handle, $path, $depends, $ver, $in_footer );
+			wp_enqueue_script( $handle, $path, $depends, $this->get_enqueue_ver( $ver ), $in_footer );
 		}, true );
 	}
 
