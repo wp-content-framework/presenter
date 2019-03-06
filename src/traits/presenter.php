@@ -288,7 +288,7 @@ trait Presenter {
 	public function n( array $data, $echo = true ) {
 		$count = count( $data );
 		if ( $echo ) {
-			echo $count;
+			$this->h( $count, false, true, false );
 		}
 
 		return $count;
