@@ -19,6 +19,7 @@ if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
  * Interface Presenter
  * @package WP_Framework_Presenter\Interfaces
  * @property \WP_Framework $app
+ * @mixin \WP_Framework_Core\Traits\Translate
  */
 interface Presenter {
 
