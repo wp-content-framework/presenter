@@ -15,7 +15,6 @@
 ``` composer require wp-content-framework/presenter ```  
 
 ## 依存モジュール
-* [core](https://github.com/wp-content-framework/core)  
 * [matthiasmullie/minify](https://github.com/matthiasmullie/minify)
 
 ## 基本設定
