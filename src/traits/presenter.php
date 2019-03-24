@@ -400,7 +400,7 @@ trait Presenter {
 
 		foreach ( $use_upload_dir ? $this->get_upload_dir() : $this->get_check_assets_dirs() as $_dir => $_url ) {
 			$_dir = rtrim( $_dir, DS . '/' );
-			if ( file_exists( $_dir . DS . $path ) && is_file( $_dir . DS . $path ) ) {
+			if ( is_file( $_dir . DS . $path ) ) {
 				if ( $url ) {
 					return rtrim( $_url, '/' ) . '/' . str_replace( DS, '/', $path ) . $this->get_assets_version( $append_version );
 				}
@@ -672,7 +672,7 @@ trait Presenter {
 		$index   = 0;
 		foreach ( $use_upload_dir ? $this->get_upload_dir() : $this->get_check_assets_dirs( true ) as $_dir => $_url ) {
 			$_dir = rtrim( $_dir, DS . '/' );
-			if ( file_exists( $_dir . DS . $path ) && is_file( $_dir . DS . $path ) ) {
+			if ( is_file( $_dir . DS . $path ) ) {
 				$enqueue( $handle, $_url . '/' . $dir . '/' . $file );
 
 				if ( ! $this->app->is_theme ) {
