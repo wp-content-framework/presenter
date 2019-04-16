@@ -119,7 +119,9 @@ trait Presenter {
 			$args['nonce_value'] = $this->create_nonce();
 		}
 		$args['instance']  = $this;
-		$args['action']    = $this->app->input->server( "REQUEST_URI" );
+		$args['action']    = $this->app->array->get( $args, 'action', function () {
+			return $this->app->input->server( "REQUEST_URI" );
+		} );
 		$args['is_admin']  = is_admin();
 		$args['user_can']  = $this->app->user_can();
 		$args['api_class'] = $this->get_api_class();
@@ -680,7 +682,7 @@ trait Presenter {
 				}
 				$result = true;
 				$handle = "{$_handle}-{$index}";
-				$index ++;
+				$index++;
 			}
 		}
 
