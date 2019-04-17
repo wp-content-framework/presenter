@@ -533,6 +533,17 @@ trait Presenter {
 	}
 
 	/**
+	 * @param null|int|\WP_Post $post
+	 * @param array $args
+	 * @param string|array $size
+	 *
+	 * @return string
+	 */
+	public function get_thumbnail( $post = null, array $args = [], $size = 'post-thumbnail' ) {
+		return has_post_thumbnail( $post ) ? get_the_post_thumbnail( $post, $size ) : $this->no_img( $args, false );
+	}
+
+	/**
 	 * @param string $path
 	 * @param int $priority
 	 * @param bool $use_upload_dir

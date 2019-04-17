@@ -201,6 +201,15 @@ interface Presenter {
 	public function no_img( array $args = [], $echo = true );
 
 	/**
+	 * @param null|int|\WP_Post $post
+	 * @param array $args
+	 * @param string|array $size
+	 *
+	 * @return string
+	 */
+	public function get_thumbnail( $post = null, array $args = [], $size = 'post-thumbnail' );
+
+	/**
 	 * @param string $path
 	 * @param int $priority
 	 * @param bool $use_upload_dir
