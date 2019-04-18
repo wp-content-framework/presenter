@@ -54,6 +54,25 @@ trait Presenter {
 
 	/**
 	 * @param string $name
+	 *
+	 * @return bool
+	 */
+	public function view_exists( $name ) {
+		$name = trim( $name, '/' . DS );
+		$name = str_replace( '/', DS, $name );
+		$name .= '.php';
+		foreach ( $this->get_check_view_dirs() as $dir ) {
+			$dir = rtrim( $dir, DS . '/' );
+			if ( is_readable( $dir . DS . $name ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $name
 	 * @param array $args
 	 * @param bool $echo
 	 * @param bool $error

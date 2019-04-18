@@ -25,6 +25,13 @@ interface Presenter {
 
 	/**
 	 * @param string $name
+	 *
+	 * @return bool
+	 */
+	public function view_exists( $name );
+
+	/**
+	 * @param string $name
 	 * @param array $args
 	 * @param bool $echo
 	 * @param bool $error
