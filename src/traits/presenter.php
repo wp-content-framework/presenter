@@ -843,6 +843,17 @@ trait Presenter {
 	}
 
 	/**
+	 * @param array $target
+	 *
+	 * @return array
+	 */
+	protected function get_translate_data( array $target ) {
+		return $this->app->array->map( $this->app->array->combine( $target, null ), function ( $value ) {
+			return $this->translate( $value );
+		} );
+	}
+
+	/**
 	 * @param string $type
 	 * @param bool $parse_db_type
 	 *
