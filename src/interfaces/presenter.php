@@ -11,6 +11,10 @@
 
 namespace WP_Framework_Presenter\Interfaces;
 
+use WP_Framework;
+use WP_Framework_Core\Traits\Translate;
+use WP_Post;
+
 if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
 	exit;
 }
@@ -18,8 +22,8 @@ if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
 /**
  * Interface Presenter
  * @package WP_Framework_Presenter\Interfaces
- * @property \WP_Framework $app
- * @mixin \WP_Framework_Core\Traits\Translate
+ * @property WP_Framework $app
+ * @mixin Translate
  */
 interface Presenter {
 
@@ -208,7 +212,7 @@ interface Presenter {
 	public function no_img( array $args = [], $echo = true );
 
 	/**
-	 * @param null|int|\WP_Post $post
+	 * @param null|int|WP_Post $post
 	 * @param array $args
 	 * @param string|array $size
 	 *
