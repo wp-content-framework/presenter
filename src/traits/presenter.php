@@ -880,4 +880,13 @@ trait Presenter {
 
 		return 'input/text';
 	}
+
+	/**
+	 * @param mixed $value
+	 *
+	 * @return string
+	 */
+	public function convert_select_value( $value ) {
+		return is_bool( $value ) ? strval( (int) $value ) : strval( $value );
+	}
 }

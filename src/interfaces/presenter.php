@@ -352,4 +352,11 @@ interface Presenter {
 	 */
 	public function get_form_by_type( $type, $parse_db_type = true );
 
+	/**
+	 * @param mixed $value
+	 *
+	 * @return string
+	 */
+	public function convert_select_value( $value );
+
 }
