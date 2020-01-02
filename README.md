@@ -1,10 +1,14 @@
 # WP Content Framework (Presenter module)
 
+[![CI Status](https://github.com/wp-content-framework/presenter/workflows/CI/badge.svg)](https://github.com/wp-content-framework/presenter/actions)
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2%2B-blue.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![PHP: >=5.6](https://img.shields.io/badge/PHP-%3E%3D5.6-orange.svg)](http://php.net/)
 [![WordPress: >=3.9.3](https://img.shields.io/badge/WordPress-%3E%3D3.9.3-brightgreen.svg)](https://wordpress.org/)
 
 [WP Content Framework](https://github.com/wp-content-framework/core) のモジュールです。
+
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 # 要件
 - PHP 5.6 以上
@@ -12,13 +16,13 @@
 
 # インストール
 
-``` composer require wp-content-framework/presenter ```  
+``` composer require wp-content-framework/presenter ```
 
 ## 依存モジュール
 * [matthiasmullie/minify](https://github.com/matthiasmullie/minify)
 
 ## 基本設定
-- configs/config.php  
+- configs/config.php
 
 |設定値|説明|
 |---|---|
@@ -29,7 +33,7 @@
 |fontawesome_icon_url|Font AwesomeのアイコンURL|
 |fontawesome_font_family|Font Awesomeのfont family|
 
-- configs/setting.php  
+- configs/setting.php
 
 |設定値|説明|
 |---|---|
@@ -38,6 +42,5 @@
 |assets_version|CSSやJS等に付与するバージョン(キャッシュ制御) \[default = プラグインのバージョン]|
 
 # Author
-
-[GitHub (Technote)](https://github.com/technote-space)  
-[Blog](https://technote.space)
+- [GitHub (Technote)](https://github.com/technote-space)
+- [Blog](https://technote.space)
