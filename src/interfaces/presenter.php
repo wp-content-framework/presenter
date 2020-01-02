@@ -2,7 +2,6 @@
 /**
  * WP_Framework_Presenter Interfaces Presenter
  *
- * @version 0.0.19
  * @author Technote
  * @copyright Technote All Rights Reserved
  * @license http://www.opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2
@@ -109,6 +108,7 @@ interface Presenter {
 	 * @param array $args
 	 *
 	 * @return string
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function h( $value, $translate = false, $echo = true, $escape = true, ...$args );
 
@@ -124,6 +124,7 @@ interface Presenter {
 	 * @param bool $echo
 	 *
 	 * @return string
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function id( $echo = true );
 
@@ -132,6 +133,7 @@ interface Presenter {
 	 * @param bool $echo
 	 *
 	 * @return int
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function n( array $data, $echo = true );
 
@@ -235,6 +237,7 @@ interface Presenter {
 	 * @param bool $use_upload_dir
 	 *
 	 * @return bool
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function js( $path, $priority = 10, $use_upload_dir = false );
 

@@ -2,7 +2,6 @@
 /**
  * WP_Framework_Presenter Classes Models Drawer
  *
- * @version 0.0.16
  * @author Technote
  * @copyright Technote All Rights Reserved
  * @license http://www.opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2
@@ -30,16 +29,16 @@ class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	use Singleton, Hook, Presenter, Uninstall;
 
 	/**
-	 * @var string|false $_package
+	 * @var string|false $package
 	 */
-	private $_package = false;
+	private $package = false;
 
 	/**
 	 * @return string
 	 */
 	public function get_package() {
-		$package        = $this->_package ? $this->_package : 'presenter';
-		$this->_package = false;
+		$package       = $this->package ? $this->package : 'presenter';
+		$this->package = false;
 
 		return $package;
 	}
@@ -48,7 +47,7 @@ class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @param Package $package
 	 */
 	public function set_package( Package $package ) {
-		$this->_package = $package->get_package();
+		$this->package = $package->get_package();
 	}
 
 	/**
@@ -58,8 +57,10 @@ class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @param string $media
 	 *
 	 * @return string
+	 * @noinspection PhpUnusedPrivateMethodInspection
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	/** @noinspection PhpUnusedPrivateMethodInspection */
 	private function style_loader_tag(
 		/** @noinspection PhpUnusedParameterInspection */
 		$html, $handle, $href, $media
@@ -72,8 +73,12 @@ class Drawer implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 			}
 
 			$replace = "media='{$media}'";
-			! empty( $integrity ) and $replace .= " integrity='{$integrity}'";
-			! empty( $crossorigin ) and $replace .= " crossorigin='{$crossorigin}'";
+			if ( ! empty( $integrity ) ) {
+				$replace .= " integrity='{$integrity}'";
+			}
+			if ( ! empty( $crossorigin ) ) {
+				$replace .= " crossorigin='{$crossorigin}'";
+			}
 
 			return str_replace( "media='{$media}' />", "{$replace}  />", $html );
 		}

@@ -2,7 +2,6 @@
 /**
  * WP_Framework_Presenter Traits Presenter
  *
- * @version 0.0.20
  * @author Technote
  * @copyright Technote All Rights Reserved
  * @license http://www.opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2
@@ -29,26 +28,28 @@ if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
 trait Presenter {
 
 	/**
-	 * @var array $_prev_post
+	 * @var array $prev_post
 	 */
-	private static $_prev_post = null;
+	private static $prev_post = null;
 
 	/**
-	 * @var array $_setup_fontawesome
+	 * @var array $setup_fontawesome
 	 */
-	private static $_setup_fontawesome = [];
+	private static $setup_fontawesome = [];
 
 	/**
-	 * @var bool $_set_script_translations
+	 * @var bool $set_script_translations
 	 */
-	private $_set_script_translations = false;
+	private $set_script_translations = false;
 
 	/**
 	 * @return array
 	 */
 	protected function get_check_view_dirs() {
 		$dirs = [];
-		! empty( $this->app->define->child_theme_views_dir ) and $dirs[] = $this->app->define->child_theme_views_dir;
+		if ( ! empty( $this->app->define->child_theme_views_dir ) ) {
+			$dirs[] = $this->app->define->child_theme_views_dir;
+		}
 		$dirs[] = $this->app->define->plugin_views_dir;
 		foreach ( $this->get_package_instance()->get_views_dirs() as $dir ) {
 			$dirs[] = $dir;
@@ -65,7 +66,7 @@ trait Presenter {
 	public function view_exists( $name ) {
 		$name = trim( $name, '/' . DS );
 		$name = str_replace( '/', DS, $name );
-		$name .= '.php';
+		$name = $name . '.php';
 		foreach ( $this->get_check_view_dirs() as $dir ) {
 			$dir = rtrim( $dir, DS . '/' );
 			if ( is_readable( $dir . DS . $name ) ) {
@@ -88,7 +89,7 @@ trait Presenter {
 	public function get_view( $name, array $args = [], $echo = false, $error = true, $remove_nl = false ) {
 		$name = trim( $name, '/' . DS );
 		$name = str_replace( '/', DS, $name );
-		$name .= '.php';
+		$name = $name . '.php';
 		$path = null;
 		foreach ( $this->get_check_view_dirs() as $dir ) {
 			$dir = rtrim( $dir, DS . '/' );
@@ -102,11 +103,11 @@ trait Presenter {
 		if ( isset( $path ) ) {
 			unset( $name );
 			$args = $this->get_presenter_args( $args );
-			extract( $args, EXTR_SKIP );
+			extract( $args, EXTR_SKIP ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 
 			ob_start();
 			/** @noinspection PhpIncludeInspection */
-			@include $path;
+			@include $path; // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 			$view = ob_get_contents();
 			ob_end_clean();
 		} elseif ( $error ) {
@@ -118,7 +119,7 @@ trait Presenter {
 		}
 
 		if ( $echo ) {
-			echo $view;
+			echo $view; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $view;
@@ -144,7 +145,7 @@ trait Presenter {
 		}
 		$args['instance']  = $this;
 		$args['action']    = $this->app->array->get( $args, 'action', function () {
-			return $this->app->input->server( "REQUEST_URI" );
+			return $this->app->input->server( 'REQUEST_URI' );
 		} );
 		$args['is_admin']  = is_admin();
 		$args['user_can']  = $this->app->user_can();
@@ -192,20 +193,20 @@ trait Presenter {
 		} elseif ( ! isset( $key ) ) {
 			$default = $data;
 		}
-		if ( ! isset( self::$_prev_post ) ) {
-			self::$_prev_post = $this->app->session->get( $this->get_old_post_session_key(), null );
-			if ( empty( self::$_prev_post ) ) {
-				self::$_prev_post = [];
+		if ( ! isset( self::$prev_post ) ) {
+			self::$prev_post = $this->app->session->get( $this->get_old_post_session_key(), null );
+			if ( empty( self::$prev_post ) ) {
+				self::$prev_post = [];
 			} else {
-				self::$_prev_post = stripslashes_deep( self::$_prev_post );
+				self::$prev_post = stripslashes_deep( self::$prev_post );
 			}
 			$this->app->session->delete( $this->get_old_post_session_key() );
 		}
-		if ( $checkbox && ! empty( self::$_prev_post ) ) {
+		if ( $checkbox && ! empty( self::$prev_post ) ) {
 			$default = false;
 		}
 
-		return $this->app->array->get( self::$_prev_post, $name, $default );
+		return $this->app->array->get( self::$prev_post, $name, $default );
 	}
 
 	/**
@@ -267,6 +268,7 @@ trait Presenter {
 	 * @param array $args
 	 *
 	 * @return string
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function h( $value, $translate = false, $echo = true, $escape = true, ...$args ) {
 		if ( $translate ) {
@@ -280,7 +282,7 @@ trait Presenter {
 			$value = nl2br( $value );
 		}
 		if ( $echo ) {
-			echo $value;
+			echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $value;
@@ -293,13 +295,14 @@ trait Presenter {
 	 * @return string
 	 */
 	public function json( $value, $echo = true ) {
-		return $this->h( @json_encode( $value ), false, $echo, false );
+		return $this->h( wp_json_encode( $value ), false, $echo, false );
 	}
 
 	/**
 	 * @param bool $echo
 	 *
 	 * @return string
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function id( $echo = true ) {
 		return $this->h( $this->app->slug_name, false, $echo );
@@ -310,6 +313,7 @@ trait Presenter {
 	 * @param bool $echo
 	 *
 	 * @return int
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function n( array $data, $echo = true ) {
 		$count = count( $data );
@@ -345,24 +349,26 @@ trait Presenter {
 
 	/**
 	 * @param bool $append_version
-	 * @param string $v
-	 * @param string $q
+	 * @param string $version
+	 * @param string $query
 	 *
 	 * @return string
 	 */
-	private function get_assets_version( $append_version, $v = 'v', $q = '?' ) {
+	private function get_assets_version( $append_version, $version = 'v', $query = '?' ) {
 		if ( ! $append_version ) {
 			$append = '';
 		} else {
 			$append = trim( $this->apply_filters( 'assets_version' ) );
-			if ( $append !== '' ) {
-				if ( $v ) {
-					$append = $v . '=' . $append;
+			if ( '' !== $append ) {
+				if ( $version ) {
+					$append = $version . '=' . $append;
 				}
 			}
 		}
-		$append = trim( $this->apply_filters( 'get_assets_version', $append, $append_version, $v, $q ) );
-		'' !== $append and $append = $q . $append;
+		$append = trim( $this->apply_filters( 'get_assets_version', $append, $append_version, $version, $query ) );
+		if ( '' !== $append ) {
+			$append = $query . $append;
+		}
 
 		return $append;
 	}
@@ -381,9 +387,13 @@ trait Presenter {
 					$dirs[ $d ] = $u;
 				}
 				$dirs[ $this->app->define->plugin_assets_dir ] = $this->app->define->plugin_assets_url;
-				! empty( $this->app->define->child_theme_assets_dir ) and $dirs[ $this->app->define->child_theme_assets_dir ] = $this->app->define->child_theme_assets_url;
+				if ( ! empty( $this->app->define->child_theme_assets_dir ) ) {
+					$dirs[ $this->app->define->child_theme_assets_dir ] = $this->app->define->child_theme_assets_url;
+				}
 			} else {
-				! empty( $this->app->define->child_theme_assets_dir ) and $dirs[ $this->app->define->child_theme_assets_dir ] = $this->app->define->child_theme_assets_url;
+				if ( ! empty( $this->app->define->child_theme_assets_dir ) ) {
+					$dirs[ $this->app->define->child_theme_assets_dir ] = $this->app->define->child_theme_assets_url;
+				}
 				$dirs[ $this->app->define->plugin_assets_dir ] = $this->app->define->plugin_assets_url;
 				foreach ( $settings as $d => $u ) {
 					$dirs[ $d ] = $u;
@@ -507,7 +517,7 @@ trait Presenter {
 	 * @return string
 	 */
 	protected function get_js_path( $path, $default = null, $use_upload_dir = false ) {
-		return empty ( $path ) ? '' : $this->get_assets_path( 'js/' . $path, $default, $use_upload_dir );
+		return empty( $path ) ? '' : $this->get_assets_path( 'js/' . $path, $default, $use_upload_dir );
 	}
 
 	/**
@@ -591,6 +601,7 @@ trait Presenter {
 	 * @param bool $use_upload_dir
 	 *
 	 * @return bool
+	 * @SuppressWarnings(PHPMD.ShortMethodName)
 	 */
 	public function js( $path, $priority = 10, $use_upload_dir = false ) {
 		$js = $this->get_js_path( $path, '', $use_upload_dir );
@@ -809,12 +820,12 @@ trait Presenter {
 	 */
 	public function setup_fontawesome() {
 		$handle = $this->app->get_config( 'config', 'fontawesome_handle' );
-		if ( isset( self::$_setup_fontawesome[ $handle ] ) ) {
+		if ( array_key_exists( $handle, self::$setup_fontawesome ) ) {
 			return;
 		}
-		self::$_setup_fontawesome[ $handle ] = true;
+		self::$setup_fontawesome[ $handle ] = true;
 
-		wp_enqueue_style( $handle, $this->app->get_config( 'config', 'fontawesome_url' ) );
+		wp_enqueue_style( $handle, $this->app->get_config( 'config', 'fontawesome_url' ), [], $this->get_enqueue_ver( false ) );
 		$this->app->filter->register_class_filter( 'drawer', [
 			'style_loader_tag' => [
 				'style_loader_tag',
@@ -826,11 +837,11 @@ trait Presenter {
 	 * @param string $handle
 	 */
 	public function set_script_translations( $handle ) {
-		if ( $this->_set_script_translations ) {
+		if ( $this->set_script_translations ) {
 			return;
 		}
-		$this->_set_script_translations = true;
-		$text_domain                    = $this->app->define->plugin_textdomain;
+		$this->set_script_translations = true;
+		$text_domain                   = $this->app->define->plugin_textdomain;
 		if ( empty( $text_domain ) ) {
 			return;
 		}
@@ -865,16 +876,18 @@ trait Presenter {
 	 * @return string
 	 */
 	public function get_form_by_type( $type, $parse_db_type = true ) {
-		$parse_db_type and $type = $this->app->utility->parse_db_type( $type, true );
+		if ( $parse_db_type ) {
+			$type = $this->app->utility->parse_db_type( $type, true );
+		}
 		switch ( $type ) {
 			case 'int':
 				return 'input/number';
 			case 'bool':
 				return 'input/checkbox';
-			case 'number';
-			case 'float';
+			case 'number':
+			case 'float':
 				return 'input/text';
-			case 'text';
+			case 'text':
 				return 'textarea';
 		}
 
