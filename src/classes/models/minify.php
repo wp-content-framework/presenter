@@ -30,24 +30,24 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	use Singleton, Hook, Presenter, Package;
 
 	/**
-	 * @var array $_script
+	 * @var array $script
 	 */
-	private $_script = [];
+	private $script = [];
 
 	/**
-	 * @var bool $_has_output_script
+	 * @var bool $has_output_script
 	 */
-	private $_has_output_script = false;
+	private $has_output_script = false;
 
 	/**
-	 * @var array $_css
+	 * @var array $css
 	 */
-	private $_css = [];
+	private $css = [];
 
 	/**
-	 * @var bool $_end_footer
+	 * @var bool $end_footer
 	 */
-	private $_end_footer = false;
+	private $end_footer = false;
 
 	/**
 	 * @param string $src
@@ -93,7 +93,7 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @param int $priority
 	 */
 	public function register_js_file( $file, $priority = 10 ) {
-		$this->set_script( @file_get_contents( $file ), $priority );
+		$this->set_script( @file_get_contents( $file ), $priority ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents,WordPress.PHP.NoSilencedErrors.Discouraged
 	}
 
 	/**
@@ -110,8 +110,8 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 			return;
 		}
 
-		$this->_script[ $priority ][] = $script;
-		if ( $this->_has_output_script ) {
+		$this->script[ $priority ][] = $script;
+		if ( $this->has_output_script ) {
 			$this->output_js();
 		}
 	}
@@ -144,17 +144,17 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 		if ( $clear_cache ) {
 			$this->clear_cache( 'script' );
 		}
-		if ( empty( $this->_script ) ) {
+		if ( empty( $this->script ) ) {
 			return;
 		}
-		ksort( $this->_script );
-		$script = implode( "\n", array_map( function ( $s ) {
-			return implode( "\n", $s );
-		}, $this->_script ) );
+		ksort( $this->script );
+		$script = implode( "\n", array_map( function ( $value ) {
+			return implode( "\n", $value );
+		}, $this->script ) );
 
 		$this->h( $this->minify_js( $script ), false, true, false );
-		$this->_script            = [];
-		$this->_has_output_script = true;
+		$this->script            = [];
+		$this->has_output_script = true;
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @param int $priority
 	 */
 	public function register_css_file( $file, $priority = 10 ) {
-		$this->set_style( @file_get_contents( $file ), $priority );
+		$this->set_style( @file_get_contents( $file ), $priority ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents,WordPress.PHP.NoSilencedErrors.Discouraged
 	}
 
 	/**
@@ -187,8 +187,8 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 			return;
 		}
 
-		$this->_css[ $priority ][] = $css;
-		if ( $this->_end_footer ) {
+		$this->css[ $priority ][] = $css;
+		if ( $this->end_footer ) {
 			$this->output_css();
 		}
 	}
@@ -221,23 +221,24 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 		if ( $clear_cache ) {
 			$this->clear_cache( 'style' );
 		}
-		if ( empty( $this->_css ) ) {
+		if ( empty( $this->css ) ) {
 			return;
 		}
-		ksort( $this->_css );
-		$css = implode( "\n", array_map( function ( $s ) {
-			return implode( "\n", $s );
-		}, $this->_css ) );
+		ksort( $this->css );
+		$css = implode( "\n", array_map( function ( $value ) {
+			return implode( "\n", $value );
+		}, $this->css ) );
 
 		$this->h( $this->minify_css( $css ), false, true, false );
-		$this->_css = [];
+		$this->css = [];
 	}
 
 	/**
 	 * end footer
+	 * @noinspection PhpUnusedPrivateMethodInspection
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
-	/** @noinspection PhpUnusedPrivateMethodInspection */
 	private function end_footer() {
-		$this->_end_footer = true;
+		$this->end_footer = true;
 	}
 }

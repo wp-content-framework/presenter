@@ -13,7 +13,6 @@ if ( ! defined( 'WP_CONTENT_FRAMEWORK' ) ) {
 }
 
 return [
-
 	'minify' => [
 		'admin_print_footer_scripts' => [
 			'output_js' => 999,
@@ -25,15 +24,13 @@ return [
 			'output_css' => 999,
 			'end_footer' => 999,
 		],
-
-		'wp_print_footer_scripts' => [
+		'wp_print_footer_scripts'    => [
 			'output_js'  => 999,
 			'output_css' => 998,
 			'end_footer' => 999,
 		],
-		'wp_print_styles'         => [
+		'wp_print_styles'            => [
 			'output_css' => 999,
 		],
 	],
-
 ];
