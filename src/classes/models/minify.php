@@ -93,7 +93,7 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @param int $priority
 	 */
 	public function register_js_file( $file, $priority = 10 ) {
-		$this->set_script( @file_get_contents( $file ), $priority ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents,WordPress.PHP.NoSilencedErrors.Discouraged
+		$this->set_script( $this->app->file->get_contents( $file ), $priority );
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Minify implements \WP_Framework_Core\Interfaces\Singleton, \WP_Framework_C
 	 * @param int $priority
 	 */
 	public function register_css_file( $file, $priority = 10 ) {
-		$this->set_style( @file_get_contents( $file ), $priority ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents,WordPress.PHP.NoSilencedErrors.Discouraged
+		$this->set_style( $this->app->file->get_contents( $file ), $priority );
 	}
 
 	/**
