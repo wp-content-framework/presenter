@@ -295,7 +295,7 @@ trait Presenter {
 	 * @return string
 	 */
 	public function json( $value, $echo = true ) {
-		return $this->h( wp_json_encode( $value ), false, $echo, false );
+		return $this->h( $this->app->utility->json_encode( $value ), false, $echo, false );
 	}
 
 	/**
@@ -852,7 +852,7 @@ trait Presenter {
 			$json = function_exists( 'wp_get_jed_locale_data' ) ? wp_get_jed_locale_data( $text_domain ) : gutenberg_get_jed_locale_data( $text_domain );
 			wp_add_inline_script(
 				'wp-i18n',
-				sprintf( 'wp.i18n.setLocaleData(  %s, "%s" );', wp_json_encode( $json ), $text_domain ),
+				sprintf( 'wp.i18n.setLocaleData(  %s, "%s" );', $this->app->utility->json_encode( $json ), $text_domain ),
 				'after'
 			);
 		}
