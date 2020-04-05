@@ -825,7 +825,7 @@ trait Presenter {
 		}
 		self::$setup_fontawesome[ $handle ] = true;
 
-		wp_enqueue_style( $handle, $this->app->get_config( 'config', 'fontawesome_url' ), [], $this->get_enqueue_ver( false ) );
+		wp_enqueue_style( $handle, $this->app->get_config( 'config', 'fontawesome_url' ), [], $this->get_enqueue_ver( null ) );
 		$this->app->filter->register_class_filter( 'drawer', [
 			'style_loader_tag' => [
 				'style_loader_tag',
