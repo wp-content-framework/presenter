@@ -658,9 +658,11 @@ trait Presenter {
 	 * @return bool
 	 */
 	public function enqueue_upload_style( $handle, $file, $generator, array $depends = [], $ver = false, $media = 'all', $dir = 'css' ) {
-		$this->app->file->create_upload_file_if_not_exists( $this->app, $dir . DS . $file, function () use ( $generator ) {
+		if ( ! $this->app->file->create_upload_file_if_not_exists( $this->app, $dir . DS . $file, function () use ( $generator ) {
 			return $this->app->minify->minify_css( $generator(), false );
-		} );
+		} ) ) {
+			return false;
+		}
 
 		return $this->enqueue_assets( $handle, $file, $dir, function ( $handle, $path ) use ( $depends, $ver, $media ) {
 			wp_enqueue_style( $handle, $path, $depends, $this->get_enqueue_ver( $ver ), $media );
@@ -695,9 +697,11 @@ trait Presenter {
 	 * @return bool
 	 */
 	public function enqueue_upload_script( $handle, $file, $generator, array $depends = [], $ver = false, $in_footer = true, $dir = 'js' ) {
-		$this->app->file->create_upload_file_if_not_exists( $this->app, $dir . DS . $file, function () use ( $generator ) {
+		if ( ! $this->app->file->create_upload_file_if_not_exists( $this->app, $dir . DS . $file, function () use ( $generator ) {
 			return $this->app->minify->minify_js( $generator(), false );
-		} );
+		} ) ) {
+			return false;
+		}
 
 		return $this->enqueue_assets( $handle, $file, $dir, function ( $handle, $path ) use ( $depends, $ver, $in_footer ) {
 			wp_enqueue_script( $handle, $path, $depends, $this->get_enqueue_ver( $ver ), $in_footer );
